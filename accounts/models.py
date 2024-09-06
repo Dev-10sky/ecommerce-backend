@@ -1,6 +1,9 @@
 from django.contrib.auth.base_user import BaseUserManager
-from django.contrib.auth.models import AbstractUser
+from django.contrib.auth.models import AbstractUser, User
 from django.db import models
+from django.dispatch import receiver
+from django.db.models.signals import post_save
+from carts.models import Cart
 
 
 class CustomUserManager(BaseUserManager):
@@ -39,7 +42,14 @@ class CustomUserManager(BaseUserManager):
             raise ValueError("Superuser must have is_superuser=True.")
         return self.create_user(first_name, last_name, email, password, **extra_fields)
 
+# Created CustomUserCartManager Class
+class CustomUserCartManager(models.Manager):
 
+    def create_cart(self,user):
+        cart = self.create(user=user)
+        cart.save()
+        return cart
+    
 class CustomUser(AbstractUser):
     username = None
     first_name = models.CharField(max_length=255, verbose_name="First name")
@@ -53,3 +63,10 @@ class CustomUser(AbstractUser):
 
     def __str__(self):
         return self.email
+    
+# Signal code to create Cart attached to user
+@receiver(post_save,sender=CustomUser)
+def cart_create(sender, instance, created=False, **kwargs):
+    if created:
+        newCart = Cart.objects.create(user=instance,)
+        newCart.save()

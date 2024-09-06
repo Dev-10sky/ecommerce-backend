@@ -25,6 +25,7 @@ INSTALLED_APPS = [
     "accounts",
     "payments",
     "newsletter",
+    "carts",
 ]
 
 SITE_ID = 1
