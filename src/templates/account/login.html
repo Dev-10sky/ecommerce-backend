@@ -1,0 +1,25 @@
+
+
+{%block content%}
+  <div class="center">
+	  <form method="post" class="card">
+	  	{% csrf_token %}
+	    <h2 class="text-center">Log In</h2>
+		{% for field in form %}
+	    		{{ field.label_tag }} 
+	        	{{ field }}
+	        	{% if field.errors %}
+	        		<small>{{ field.errors|striptags }}</small> 
+	        	{% endif %}
+            <br>
+		{% endfor %}
+		<!-- {{form.as_p}} -->
+		
+		<input type="submit" value="Login" class="btn btn-primary full-width">
+		<hr>
+		<p class="text-center">Forgot your password <a href="#">Reset Password</a></p>
+		<p class="text-center">Don't have a account? <a href="#">Join Now</a></p>
+	</form>
+</div>
+
+{%endblock content%}
