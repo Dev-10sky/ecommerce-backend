@@ -2,7 +2,7 @@ from rest_auth.registration.views import RegisterView
 from rest_auth.views import LoginView
 from django.contrib import messages
 from django.urls import reverse_lazy
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.contrib.auth.forms import AuthenticationForm
 from rest_framework.response import Response
 from rest_framework import status
@@ -28,14 +28,11 @@ class CustomLoginView(LoginView):
         }
         return render(request,"account/login.html",context=context)
     
-    # def post(self, request, format=None):
-    #     print(request.data)
-    #     serializer = CustomLoginSerializer(data=request.data)
-    #     if serializer.is_valid():
-    #         serializer.save()
-    #         return Response(serializer.data, status=status.HTTP_201_CREATED)
-    #     print(serializer.errors)
-    #     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    def post(self, request, format=None):
+        if request.method == "POST":
+            authform = AuthenticationForm(data=request.POST)
+            if authform.is_valid():
+                return redirect("/")
 
 class CustomRegisterView(RegisterView):
     serializer_class = CustomRegisterSerializer
