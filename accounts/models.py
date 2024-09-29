@@ -68,5 +68,7 @@ class CustomUser(AbstractUser):
 @receiver(post_save,sender=CustomUser)
 def cart_create(sender, instance, created=False, **kwargs):
     if created:
-        newCart = Cart.objects.create(user=instance,)
+        print(instance.first_name)
+        carts_name = str(instance.first_name)+ " " +str(instance.last_name)+ "'s " + "Cart" 
+        newCart = Cart.objects.create(user=instance,name=carts_name)
         newCart.save()
