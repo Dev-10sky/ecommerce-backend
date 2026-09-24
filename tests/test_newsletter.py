@@ -15,15 +15,18 @@ class CreateViewSubscribersTest(TestCase):
 
         # Create superuser
         self.superuser = CustomUser.objects.create_superuser(
-            username="Superuser Testing",
+            # username="Superuser Testing",
+            first_name="Super",
+            last_name="User",
             email="superuser@testing.com",
             password="superusertestingpassword",
         )
         self.superuser.save()
-
         # Create regular user
         self.user = CustomUser.objects.create_user(
-            username="Regular User",
+            # username="Regular User",
+            first_name="Regular",
+            last_name="User",
             email="regularuser@testing.com",
             password="regularusertestingpassword",
         )

@@ -7,10 +7,9 @@ class CartSerializer(serializers.ModelSerializer):
     class Meta:
         model = Cart
         fields = (
-            "id",
             "cartId",
+            "product",
             "name",
             "quantity",
             "slug",
         )
-        lookup_field = "slug"
